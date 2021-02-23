@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "725340626422",
+    "project_id": "toko-manager-7b0ba",
+    "storage_bucket": "toko-manager-7b0ba.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:725340626422:android:3e8c142b951204e6b07bd7",
+        "android_client_info": {
+          "package_name": "com.example.toko_manager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "725340626422-4joinni8ec3g82vdre6cnnq4i89q9uc4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRZA-3R8zVfy-J-YVTqLyzVhlT-bHN9q4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "725340626422-4joinni8ec3g82vdre6cnnq4i89q9uc4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
