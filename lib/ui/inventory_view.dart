@@ -1,15 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:toko_manager/ui/home_drawer.dart';
 
-class HomeView extends StatefulWidget {
-  HomeView({Key key}) : super(key: key);
+class InventoryView extends StatefulWidget {
+  InventoryView({Key key}) : super(key: key);
 
   @override
-  _HomeViewState createState() => _HomeViewState();
+  _InventoryViewState createState() => _InventoryViewState();
 }
 
-class _HomeViewState extends State<HomeView> {
+class _InventoryViewState extends State<InventoryView> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,7 +16,7 @@ class _HomeViewState extends State<HomeView> {
         appBar: AppBar(),
         drawer: HomeDrawer(),
         body: Container(
-          child: Text('This is Home View!'),
+          child: Text('This is Inventory view!'),
         ),
       ),
     );
