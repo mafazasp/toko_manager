@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:toko_manager/ui/inventory_view.dart';
 
 import 'inventory_add_view.dart';
+import 'product_add_view.dart';
 
 class HomeDrawer extends StatefulWidget {
   HomeDrawer({Key key}) : super(key: key);
@@ -38,7 +39,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => InventoryAddView(),
+                  builder: (context) => ProductAddView(),
                 ),
               );
             },
