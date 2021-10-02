@@ -63,6 +63,41 @@ class _ProductAddViewState extends State<ProductAddView> {
     );
   }
 
+  Column buildForm() {
+    return Column(
+      children: [
+        TextFormField(
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            hintText: 'name',
+            fillColor: Colors.grey[300],
+            filled: true,
+          ),
+          validator: (value) {
+            if (value.isEmpty) {
+              return 'Please enter some text';
+            }
+          },
+          onSaved: (value) => name = value,
+        ),
+        TextFormField(
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            hintText: 'brand',
+            fillColor: Colors.grey[300],
+            filled: true,
+          ),
+          validator: (value) {
+            if (value.isEmpty) {
+              return 'Please enter some text';
+            }
+          },
+          onSaved: (value) => brand = value,
+        ),
+      ],
+    );
+  }
+
   TextFormField buildTextFormField() {
     return TextFormField(
       decoration: InputDecoration(
@@ -91,7 +126,7 @@ class _ProductAddViewState extends State<ProductAddView> {
           children: <Widget>[
             Form(
               key: _formKey,
-              child: buildTextFormField(),
+              child: buildForm(),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
