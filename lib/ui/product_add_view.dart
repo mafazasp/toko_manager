@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firedart/firestore/firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'dart:html';
 
@@ -93,6 +94,52 @@ class _ProductAddViewState extends State<ProductAddView> {
             }
           },
           onSaved: (value) => brand = value,
+        ),
+        TextFormField(
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            hintText: 'category',
+            fillColor: Colors.grey[300],
+            filled: true,
+          ),
+          validator: (value) {
+            if (value.isEmpty) {
+              return 'Please enter some text';
+            }
+          },
+          onSaved: (value) => category = value,
+        ),
+        TextFormField(
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          keyboardType: TextInputType.number,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            hintText: 'supplierPrice',
+            fillColor: Colors.grey[300],
+            filled: true,
+          ),
+          validator: (value) {
+            if (value.isEmpty) {
+              return 'Please enter some text';
+            }
+          },
+          onSaved: (value) => supplierPrice = value as int,
+        ),
+        TextFormField(
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          keyboardType: TextInputType.number,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            hintText: 'retailPrice',
+            fillColor: Colors.grey[300],
+            filled: true,
+          ),
+          validator: (value) {
+            if (value.isEmpty) {
+              return 'Please enter some text';
+            }
+          },
+          onSaved: (value) => retailPrice = value as int,
         ),
       ],
     );
