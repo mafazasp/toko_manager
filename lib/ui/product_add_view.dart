@@ -123,7 +123,7 @@ class _ProductAddViewState extends State<ProductAddView> {
               return 'Please enter some text';
             }
           },
-          onSaved: (value) => supplierPrice = value as int,
+          onSaved: (value) => supplierPrice = int.parse(value),
         ),
         TextFormField(
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -139,7 +139,7 @@ class _ProductAddViewState extends State<ProductAddView> {
               return 'Please enter some text';
             }
           },
-          onSaved: (value) => retailPrice = value as int,
+          onSaved: (value) => retailPrice = int.parse(value),
         ),
       ],
     );
@@ -212,8 +212,13 @@ class _ProductAddViewState extends State<ProductAddView> {
   void createData() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      DocumentReference reference =
-          await firestore.collection('products').add({'name': '$name'});
+      DocumentReference reference = await firestore.collection('products').add({
+        'name': '$name',
+        'brand': '$brand',
+        'category': '$category',
+        'supplierPrice': supplierPrice,
+        'retailPrice': retailPrice
+      });
       setState(() => id = reference.id);
       print(reference.id);
     }
