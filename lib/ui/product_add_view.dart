@@ -3,6 +3,7 @@ import 'package:firedart/firestore/firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 
 import 'dart:html';
 
@@ -28,6 +29,7 @@ class _ProductAddViewState extends State<ProductAddView> {
   String category;
   int supplierPrice;
   int retailPrice;
+  List<String> brandsList = ['samsung', 'lg'];
 
   Card buildItem(DocumentSnapshot documentSnapshot) {
     return Card(
@@ -81,20 +83,29 @@ class _ProductAddViewState extends State<ProductAddView> {
           },
           onSaved: (value) => name = value,
         ),
-        TextFormField(
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            hintText: 'brand',
-            fillColor: Colors.grey[300],
-            filled: true,
-          ),
-          validator: (value) {
-            if (value.isEmpty) {
-              return 'Please enter some text';
-            }
-          },
-          onSaved: (value) => brand = value,
-        ),
+        DropdownSearch<String>(
+            mode: Mode.MENU,
+            showSelectedItems: true,
+            items: brandsList,
+            label: "Brand",
+            hint: "country in menu mode",
+            popupItemDisabled: (String s) => s.startsWith('I'),
+            onChanged: print,
+            selectedItem: "samsung"),
+        // TextFormField(
+        //   decoration: InputDecoration(
+        //     border: InputBorder.none,
+        //     hintText: 'brand',
+        //     fillColor: Colors.grey[300],
+        //     filled: true,
+        //   ),
+        //   validator: (value) {
+        //     if (value.isEmpty) {
+        //       return 'Please enter some text';
+        //     }
+        //   },
+        //   onSaved: (value) => brand = value,
+        // ),
         TextFormField(
           decoration: InputDecoration(
             border: InputBorder.none,
