@@ -31,8 +31,15 @@ class _ProductAddViewState extends State<ProductAddView> {
   int retailPrice;
   List<String> brandsList;
 
+  @override
+  void initState() {
+    buildBrandsList();
+    brandsList.add('lg');
+    super.initState();
+  }
+
   List<String> buildBrandsList() {
-    return brandsList = ['hitachi', 'samsung'];
+    return brandsList = ['samsung', 'hitachi'];
   }
 
   Card buildItem(DocumentSnapshot documentSnapshot) {
@@ -90,7 +97,7 @@ class _ProductAddViewState extends State<ProductAddView> {
         DropdownSearch<String>(
             mode: Mode.MENU,
             showSelectedItems: true,
-            items: buildBrandsList(),
+            items: brandsList,
             label: "Brand",
             hint: "country in menu mode",
             popupItemDisabled: (String s) => s.startsWith('I'),
