@@ -29,7 +29,7 @@ class _ProductAddViewState extends State<ProductAddView> {
   String category;
   int supplierPrice;
   int retailPrice;
-  var brandsList = new List<String>();
+  List<String> brandsList = [];
 
   @override
   void initState() {
