@@ -29,17 +29,20 @@ class _ProductAddViewState extends State<ProductAddView> {
   String category;
   int supplierPrice;
   int retailPrice;
-  List<String> brandsList;
+  var brandsList = new List<String>();
 
   @override
   void initState() {
-    buildBrandsList();
-    brandsList.add('lg');
+    getBrandsList();
     super.initState();
   }
 
-  List<String> buildBrandsList() {
-    return brandsList = ['samsung', 'hitachi'];
+  void getBrandsList() {
+    firestore.collection('brands').get().then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        brandsList.add(doc["brand_name"]);
+      });
+    });
   }
 
   Card buildItem(DocumentSnapshot documentSnapshot) {
