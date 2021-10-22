@@ -99,13 +99,14 @@ class _ProductAddViewState extends State<ProductAddView> {
         ),
         DropdownSearch<String>(
             mode: Mode.MENU,
+            showSearchBox: true,
             showSelectedItems: true,
             items: brandsList,
             label: "Brand",
             hint: "country in menu mode",
             popupItemDisabled: (String s) => s.startsWith('I'),
             onChanged: print,
-            selectedItem: "samsung"),
+            selectedItem: "Tambahkan Merk . . ."),
         // TextFormField(
         //   decoration: InputDecoration(
         //     border: InputBorder.none,
