@@ -97,16 +97,31 @@ class _ProductAddViewState extends State<ProductAddView> {
           },
           onSaved: (value) => name = value,
         ),
-        DropdownSearch<String>(
-            mode: Mode.MENU,
-            showSearchBox: true,
-            showSelectedItems: true,
-            items: brandsList,
-            label: "Brand",
-            hint: "country in menu mode",
-            popupItemDisabled: (String s) => s.startsWith('I'),
-            onChanged: print,
-            selectedItem: "Tambahkan Merk . . ."),
+        Autocomplete<String>(
+          optionsBuilder: (TextEditingValue textEditingValue) {
+            if (textEditingValue.text == '') {
+              return const Iterable<String>.empty();
+            }
+            return brandsList.where((String option) {
+              return option.contains(textEditingValue.text.toLowerCase());
+            });
+          },
+          onSelected: (String selection) {
+            print('You just selected $selection');
+          },
+        ),
+
+        // DropdownSearch<String>(
+        //     mode: Mode.MENU,
+        //     showSearchBox: true,
+        //     showSelectedItems: true,
+        //     items: brandsList,
+        //     label: "Brand",
+        //     hint: "country in menu mode",
+        //     popupItemDisabled: (String s) => s.startsWith('I'),
+        //     onChanged: print,
+        //     selectedItem: "Tambahkan Merk . . ."),
+
         // TextFormField(
         //   decoration: InputDecoration(
         //     border: InputBorder.none,
@@ -133,7 +148,7 @@ class _ProductAddViewState extends State<ProductAddView> {
               return 'Please enter some text';
             }
           },
-          onSaved: (value) => category = value,
+          onSaved: (value) => category = value.toLowerCase(),
         ),
         TextFormField(
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -184,7 +199,7 @@ class _ProductAddViewState extends State<ProductAddView> {
           return 'Please enter some text';
         }
       },
-      onSaved: (value) => name = value,
+      onSaved: (value) => name = value.toLowerCase(),
     );
   }
 
