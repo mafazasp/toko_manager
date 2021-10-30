@@ -149,6 +149,7 @@ class _ProductAddViewState extends State<ProductAddView> {
 
             //return "lenovo not found, add lenovo as a new brand . . ."
           },
+          displayStringForOption: (AutocompleteItem option) => option.brandName,
           onSelected: (AutocompleteItem selection) {
             print(
                 'You just selected ${selection.brandName}, ${selection.isExist}');
