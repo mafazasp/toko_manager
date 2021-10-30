@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:toko_manager/model/autocomplete_item.dart';
 
 import 'dart:html';
 
@@ -97,17 +98,61 @@ class _ProductAddViewState extends State<ProductAddView> {
           },
           onSaved: (value) => name = value,
         ),
-        Autocomplete<String>(
-          optionsBuilder: (TextEditingValue textEditingValue) {
-            if (textEditingValue.text == '') {
-              return const Iterable<String>.empty();
-            }
-            return brandsList.where((String option) {
-              return option.contains(textEditingValue.text.toLowerCase());
-            });
+        Autocomplete<AutocompleteItem>(
+          optionsViewBuilder: (BuildContext context,
+              AutocompleteOnSelected<AutocompleteItem> onSelected,
+              Iterable<AutocompleteItem> options) {
+            return Align(
+              alignment: Alignment.topLeft,
+              child: Material(
+                child: Container(
+                  // width: 300,
+                  // color: Colors.teal,
+                  child: ListView.builder(
+                    padding: EdgeInsets.all(10.0),
+                    itemCount: options.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final AutocompleteItem option = options.elementAt(index);
+
+                      return GestureDetector(
+                        onTap: () {
+                          onSelected(option);
+                        },
+                        child: ListTile(
+                          title: Text(
+                            option.brandName,
+                            //style: const TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            );
           },
-          onSelected: (String selection) {
-            print('You just selected $selection');
+          optionsBuilder: (TextEditingValue textEditingValue) {
+            Iterable<AutocompleteItem> brandIterable =
+                brandsList.where((String option) {
+              return option.contains(textEditingValue.text.toLowerCase());
+            }).map((brand) => AutocompleteItem(brand, true));
+
+            if (brandIterable.isEmpty) {
+              return [AutocompleteItem(textEditingValue.text, false)];
+            } else {
+              return brandIterable;
+            }
+
+            // return brandsList.where((String option) {
+            //   return option.contains(textEditingValue.text.toLowerCase());
+            // });
+
+            //return "lenovo not found, add lenovo as a new brand . . ."
+          },
+          onSelected: (AutocompleteItem selection) {
+            print(
+                'You just selected ${selection.brandName}, ${selection.isExist}');
+            return selection.brandName;
           },
         ),
 
@@ -122,20 +167,20 @@ class _ProductAddViewState extends State<ProductAddView> {
         //     onChanged: print,
         //     selectedItem: "Tambahkan Merk . . ."),
 
-        // TextFormField(
-        //   decoration: InputDecoration(
-        //     border: InputBorder.none,
-        //     hintText: 'brand',
-        //     fillColor: Colors.grey[300],
-        //     filled: true,
-        //   ),
-        //   validator: (value) {
-        //     if (value.isEmpty) {
-        //       return 'Please enter some text';
-        //     }
-        //   },
-        //   onSaved: (value) => brand = value,
-        // ),
+        TextFormField(
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            hintText: 'brand',
+            fillColor: Colors.grey[300],
+            filled: true,
+          ),
+          validator: (value) {
+            if (value.isEmpty) {
+              return 'Please enter some text';
+            }
+          },
+          onSaved: (value) => brand = value,
+        ),
         TextFormField(
           decoration: InputDecoration(
             border: InputBorder.none,
