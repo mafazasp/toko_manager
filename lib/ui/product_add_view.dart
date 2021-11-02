@@ -25,8 +25,7 @@ class _ProductAddViewState extends State<ProductAddView> {
   final _formKey = GlobalKey<FormState>();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   String name;
-  String brand;
-  Brand currentBrand;
+  Brand brand;
   String category;
   int supplierPrice;
   int retailPrice;
@@ -155,7 +154,7 @@ class _ProductAddViewState extends State<ProductAddView> {
             }
           },
           displayStringForOption: (Brand option) => option.brandName,
-          onSelected: (Brand selection) => currentBrand = selection,
+          onSelected: (Brand selection) => brand = selection,
         ),
         TextFormField(
           decoration: InputDecoration(
@@ -276,17 +275,17 @@ class _ProductAddViewState extends State<ProductAddView> {
       _formKey.currentState.save();
       DocumentReference reference = await firestore.collection('products').add({
         'name': '$name',
-        'brand': '${currentBrand.brandName.toLowerCase()}',
+        'brand': '${brand.brandName.toLowerCase()}',
         'category': '$category',
         'supplierPrice': supplierPrice,
         'retailPrice': retailPrice
       });
       setState(() => id = reference.id);
       print(reference.id);
-      print(currentBrand.isExist);
+      print(brand.isExist);
 
-      if (currentBrand.isExist == false) {
-        print("${currentBrand.brandName} does not exist, adding new one");
+      if (brand.isExist == false) {
+        print("${brand.brandName} does not exist, adding new one");
       }
     }
   }
