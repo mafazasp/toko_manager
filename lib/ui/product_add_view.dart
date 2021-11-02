@@ -143,25 +143,23 @@ class _ProductAddViewState extends State<ProductAddView> {
             }
           },
           displayStringForOption: (Brand option) => option.brandName,
-          onSelected: (Brand selection) {
-            print(
-                'You just selected ${selection.brandName}, ${selection.isExist}');
-          },
+          onSelected: (Brand selection) =>
+              brand = selection.brandName.toLowerCase(),
         ),
-        TextFormField(
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            hintText: 'brand',
-            fillColor: Colors.grey[300],
-            filled: true,
-          ),
-          validator: (value) {
-            if (value.isEmpty) {
-              return 'Please enter some text';
-            }
-          },
-          onSaved: (value) => brand = value,
-        ),
+        // TextFormField(
+        //   decoration: InputDecoration(
+        //     border: InputBorder.none,
+        //     hintText: 'brand',
+        //     fillColor: Colors.grey[300],
+        //     filled: true,
+        //   ),
+        //   validator: (value) {
+        //     if (value.isEmpty) {
+        //       return 'Please enter some text';
+        //     }
+        //   },
+        //   onSaved: (value) => brand = value,
+        // ),
         TextFormField(
           decoration: InputDecoration(
             border: InputBorder.none,
