@@ -26,6 +26,7 @@ class _ProductAddViewState extends State<ProductAddView> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   String name;
   String brand;
+  Brand currentBrand;
   String category;
   int supplierPrice;
   int retailPrice;
@@ -154,8 +155,7 @@ class _ProductAddViewState extends State<ProductAddView> {
             }
           },
           displayStringForOption: (Brand option) => option.brandName,
-          onSelected: (Brand selection) =>
-              brand = selection.brandName.toLowerCase(),
+          onSelected: (Brand selection) => currentBrand = selection,
         ),
         TextFormField(
           decoration: InputDecoration(
@@ -276,7 +276,7 @@ class _ProductAddViewState extends State<ProductAddView> {
       _formKey.currentState.save();
       DocumentReference reference = await firestore.collection('products').add({
         'name': '$name',
-        'brand': '$brand',
+        'brand': '${currentBrand.brandName.toLowerCase()}',
         'category': '$category',
         'supplierPrice': supplierPrice,
         'retailPrice': retailPrice
