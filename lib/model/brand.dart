@@ -1,6 +1,6 @@
 class Brand {
-  String brandName;
+  String name;
   bool isExist;
 
-  Brand(this.brandName, this.isExist);
+  Brand(this.name, this.isExist);
 }

@@ -133,7 +133,7 @@ class _ProductAddViewState extends State<ProductAddView> {
                         },
                         child: ListTile(
                           title: Text(
-                            option.brandName,
+                            option.name,
                             //style: const TextStyle(color: Colors.white),
                           ),
                         ),
@@ -155,7 +155,7 @@ class _ProductAddViewState extends State<ProductAddView> {
               return brandIterable;
             }
           },
-          displayStringForOption: (Brand option) => option.brandName,
+          displayStringForOption: (Brand option) => option.name,
           onSelected: (Brand selection) => productbrand = selection,
         ),
         TextFormField(
@@ -277,7 +277,7 @@ class _ProductAddViewState extends State<ProductAddView> {
       _formKey.currentState.save();
       DocumentReference reference = await firestore.collection('products').add({
         'name': '${product.name}',
-        'brand': '${productbrand.brandName.toLowerCase()}',
+        'brand': '${productbrand.name.toLowerCase()}',
         'category': '$productcategory',
         'supplierPrice': productsupplierPrice,
         'retailPrice': productretailPrice
@@ -287,7 +287,7 @@ class _ProductAddViewState extends State<ProductAddView> {
       print(productbrand.isExist);
 
       if (productbrand.isExist == false) {
-        print("${productbrand.brandName} does not exist, adding new one");
+        print("${productbrand.name} does not exist, adding new one");
       }
     }
   }
