@@ -272,9 +272,9 @@ class _ProductAddViewState extends State<ProductAddView> {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       DocumentReference reference = await firestore.collection('products').add({
-        'name': '${product.name}',
+        'name': '${product.name.toLowerCase()}',
         'brand': '${product.brand.name.toLowerCase()}',
-        'category': '$product.category',
+        'category': '${product.category.toLowerCase()}',
         'supplierPrice': product.supplierPrice,
         'retailPrice': product.retailPrice
       });
