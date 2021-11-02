@@ -283,6 +283,11 @@ class _ProductAddViewState extends State<ProductAddView> {
       });
       setState(() => id = reference.id);
       print(reference.id);
+      print(currentBrand.isExist);
+
+      if (currentBrand.isExist == false) {
+        print("${currentBrand.brandName} does not exist, adding new one");
+      }
     }
   }
 
