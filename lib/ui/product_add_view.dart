@@ -3,8 +3,7 @@ import 'package:firedart/firestore/firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:dropdown_search/dropdown_search.dart';
-import 'package:toko_manager/model/autocomplete_item.dart';
+import 'package:toko_manager/model/brand.dart';
 
 import 'dart:html';
 
@@ -98,10 +97,11 @@ class _ProductAddViewState extends State<ProductAddView> {
           },
           onSaved: (value) => name = value,
         ),
-        Autocomplete<AutocompleteItem>(
+        // Autocomplete Docs: https://www.woolha.com/tutorials/flutter-using-autocomplete-widget-examples
+        Autocomplete<Brand>(
           optionsViewBuilder: (BuildContext context,
-              AutocompleteOnSelected<AutocompleteItem> onSelected,
-              Iterable<AutocompleteItem> options) {
+              AutocompleteOnSelected<Brand> onSelected,
+              Iterable<Brand> options) {
             return Align(
               alignment: Alignment.topLeft,
               child: Material(
@@ -112,7 +112,7 @@ class _ProductAddViewState extends State<ProductAddView> {
                     padding: EdgeInsets.all(10.0),
                     itemCount: options.length,
                     itemBuilder: (BuildContext context, int index) {
-                      final AutocompleteItem option = options.elementAt(index);
+                      final Brand option = options.elementAt(index);
 
                       return GestureDetector(
                         onTap: () {
@@ -132,42 +132,22 @@ class _ProductAddViewState extends State<ProductAddView> {
             );
           },
           optionsBuilder: (TextEditingValue textEditingValue) {
-            Iterable<AutocompleteItem> brandIterable =
-                brandsList.where((String option) {
+            Iterable<Brand> brandIterable = brandsList.where((String option) {
               return option.contains(textEditingValue.text.toLowerCase());
-            }).map((brand) => AutocompleteItem(brand, true));
+            }).map((brand) => Brand(brand, true));
 
             if (brandIterable.isEmpty) {
-              return [AutocompleteItem(textEditingValue.text, false)];
+              return [Brand(textEditingValue.text, false)];
             } else {
               return brandIterable;
             }
-
-            // return brandsList.where((String option) {
-            //   return option.contains(textEditingValue.text.toLowerCase());
-            // });
-
-            //return "lenovo not found, add lenovo as a new brand . . ."
           },
-          displayStringForOption: (AutocompleteItem option) => option.brandName,
-          onSelected: (AutocompleteItem selection) {
+          displayStringForOption: (Brand option) => option.brandName,
+          onSelected: (Brand selection) {
             print(
                 'You just selected ${selection.brandName}, ${selection.isExist}');
-            return selection.brandName;
           },
         ),
-
-        // DropdownSearch<String>(
-        //     mode: Mode.MENU,
-        //     showSearchBox: true,
-        //     showSelectedItems: true,
-        //     items: brandsList,
-        //     label: "Brand",
-        //     hint: "country in menu mode",
-        //     popupItemDisabled: (String s) => s.startsWith('I'),
-        //     onChanged: print,
-        //     selectedItem: "Tambahkan Merk . . ."),
-
         TextFormField(
           decoration: InputDecoration(
             border: InputBorder.none,
