@@ -11,6 +11,7 @@ import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:toko_manager/model/category.dart';
 import 'package:toko_manager/model/product.dart';
 
 import 'home_drawer.dart';
@@ -27,12 +28,17 @@ class _ProductAddViewState extends State<ProductAddView> {
   final _formKey = GlobalKey<FormState>();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   Product product = new Product();
+
   List<dynamic> brandsDynamic = [];
   List<String> brandsList;
+
+  List<dynamic> categoriesDynamic = [];
+  List<String> categoriesList;
 
   @override
   void initState() {
     getBrandsList();
+    getCategoriesList();
     super.initState();
   }
 
@@ -52,6 +58,18 @@ class _ProductAddViewState extends State<ProductAddView> {
     //     brandsList.add(doc["brand_name"]);
     //   });
     // });
+  }
+
+  void getCategoriesList() {
+    firestore
+        .collection('dropdown_lists')
+        .doc('categories')
+        .get()
+        .then((value) => categoriesDynamic.addAll(value.get("category_names")));
+
+    categoriesList = categoriesDynamic.cast<String>();
+    // print(categoriesDynamic);
+    // print(brandsDynamic);
   }
 
   Card buildItem(DocumentSnapshot documentSnapshot) {
@@ -154,20 +172,69 @@ class _ProductAddViewState extends State<ProductAddView> {
           displayStringForOption: (Brand option) => option.name,
           onSelected: (Brand selection) => product.brand = selection,
         ),
-        TextFormField(
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            hintText: 'category',
-            fillColor: Colors.grey[300],
-            filled: true,
-          ),
-          validator: (value) {
-            if (value.isEmpty) {
-              return 'Please enter some text';
+
+        Autocomplete<Category>(
+          optionsViewBuilder: (BuildContext context,
+              AutocompleteOnSelected<Category> onSelected,
+              Iterable<Category> options) {
+            return Align(
+              alignment: Alignment.topLeft,
+              child: Material(
+                child: Container(
+                  // width: 300,
+                  // color: Colors.teal,
+                  child: ListView.builder(
+                    padding: EdgeInsets.all(10.0),
+                    itemCount: options.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final Category option = options.elementAt(index);
+
+                      return GestureDetector(
+                        onTap: () {
+                          onSelected(option);
+                        },
+                        child: ListTile(
+                          title: Text(
+                            option.name,
+                            //style: const TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            );
+          },
+          optionsBuilder: (TextEditingValue textEditingValue) {
+            Iterable<Category> categoryIterable =
+                categoriesList.where((String option) {
+              return option.contains(textEditingValue.text.toLowerCase());
+            }).map((category) => Category(category, true));
+
+            if (categoryIterable.isEmpty) {
+              return [Category(textEditingValue.text, false)];
+            } else {
+              return categoryIterable;
             }
           },
-          onSaved: (value) => product.category = value.toLowerCase(),
+          displayStringForOption: (Category option) => option.name,
+          onSelected: (Category selection) => product.category = selection,
         ),
+        // TextFormField(
+        //   decoration: InputDecoration(
+        //     border: InputBorder.none,
+        //     hintText: 'category',
+        //     fillColor: Colors.grey[300],
+        //     filled: true,
+        //   ),
+        //   validator: (value) {
+        //     if (value.isEmpty) {
+        //       return 'Please enter some text';
+        //     }
+        //   },
+        //   onSaved: (value) => product.category = value.toLowerCase(),
+        // ),
         TextFormField(
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           keyboardType: TextInputType.number,
@@ -274,7 +341,7 @@ class _ProductAddViewState extends State<ProductAddView> {
       DocumentReference reference = await firestore.collection('products').add({
         'name': '${product.name.toLowerCase()}',
         'brand': '${product.brand.name.toLowerCase()}',
-        'category': '${product.category.toLowerCase()}',
+        'category': '${product.category.name.toLowerCase()}',
         'supplierPrice': product.supplierPrice,
         'retailPrice': product.retailPrice
       });
@@ -282,7 +349,15 @@ class _ProductAddViewState extends State<ProductAddView> {
 
       if (product.brand.isExist == false) {
         await firestore.collection('dropdown_lists').doc('brands').update({
-          'brand_names': FieldValue.arrayUnion([product.brand.name])
+          'brand_names':
+              FieldValue.arrayUnion([product.brand.name.toLowerCase()])
+        });
+      }
+
+      if (product.category.isExist == false) {
+        await firestore.collection('dropdown_lists').doc('categories').update({
+          'category_names':
+              FieldValue.arrayUnion([product.category.name.toLowerCase()])
         });
       }
     }
