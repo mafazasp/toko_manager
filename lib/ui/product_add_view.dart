@@ -29,7 +29,8 @@ class _ProductAddViewState extends State<ProductAddView> {
   String category;
   int supplierPrice;
   int retailPrice;
-  List<String> brandsList = [];
+  List<dynamic> brandsDynamic = [];
+  List<String> brandsList;
 
   @override
   void initState() {
@@ -38,11 +39,21 @@ class _ProductAddViewState extends State<ProductAddView> {
   }
 
   void getBrandsList() {
-    firestore.collection('brands').get().then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        brandsList.add(doc["brand_name"]);
-      });
-    });
+    firestore
+        .collection('dropdown_lists')
+        .doc('brands')
+        .get()
+        .then((value) => brandsDynamic.addAll(value.get("brand_names")));
+
+    brandsList = brandsDynamic.cast<String>();
+    // print(brandsDynamic);
+    // print(brandsList);
+
+    // firestore.collection('brands').get().then((QuerySnapshot querySnapshot) {
+    //   querySnapshot.docs.forEach((doc) {
+    //     brandsList.add(doc["brand_name"]);
+    //   });
+    // });
   }
 
   Card buildItem(DocumentSnapshot documentSnapshot) {
@@ -146,20 +157,6 @@ class _ProductAddViewState extends State<ProductAddView> {
           onSelected: (Brand selection) =>
               brand = selection.brandName.toLowerCase(),
         ),
-        // TextFormField(
-        //   decoration: InputDecoration(
-        //     border: InputBorder.none,
-        //     hintText: 'brand',
-        //     fillColor: Colors.grey[300],
-        //     filled: true,
-        //   ),
-        //   validator: (value) {
-        //     if (value.isEmpty) {
-        //       return 'Please enter some text';
-        //     }
-        //   },
-        //   onSaved: (value) => brand = value,
-        // ),
         TextFormField(
           decoration: InputDecoration(
             border: InputBorder.none,
