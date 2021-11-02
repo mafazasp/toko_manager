@@ -3,6 +3,7 @@ import 'package:firedart/firestore/firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:toko_manager/model/brand.dart';
 
 import 'dart:html';
@@ -10,6 +11,7 @@ import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:toko_manager/model/product.dart';
 
 import 'home_drawer.dart';
 
@@ -24,11 +26,11 @@ class _ProductAddViewState extends State<ProductAddView> {
   String id;
   final _formKey = GlobalKey<FormState>();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  String name;
-  Brand brand;
-  String category;
-  int supplierPrice;
-  int retailPrice;
+  Product product = new Product();
+  Brand productbrand;
+  String productcategory;
+  int productsupplierPrice;
+  int productretailPrice;
   List<dynamic> brandsDynamic = [];
   List<String> brandsList;
 
@@ -106,7 +108,7 @@ class _ProductAddViewState extends State<ProductAddView> {
               return 'Please enter some text';
             }
           },
-          onSaved: (value) => name = value,
+          onSaved: (value) => product.name = value,
         ),
         // Autocomplete Docs: https://www.woolha.com/tutorials/flutter-using-autocomplete-widget-examples
         Autocomplete<Brand>(
@@ -154,7 +156,7 @@ class _ProductAddViewState extends State<ProductAddView> {
             }
           },
           displayStringForOption: (Brand option) => option.brandName,
-          onSelected: (Brand selection) => brand = selection,
+          onSelected: (Brand selection) => productbrand = selection,
         ),
         TextFormField(
           decoration: InputDecoration(
@@ -168,7 +170,7 @@ class _ProductAddViewState extends State<ProductAddView> {
               return 'Please enter some text';
             }
           },
-          onSaved: (value) => category = value.toLowerCase(),
+          onSaved: (value) => productcategory = value.toLowerCase(),
         ),
         TextFormField(
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -184,7 +186,7 @@ class _ProductAddViewState extends State<ProductAddView> {
               return 'Please enter some text';
             }
           },
-          onSaved: (value) => supplierPrice = int.parse(value),
+          onSaved: (value) => productsupplierPrice = int.parse(value),
         ),
         TextFormField(
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -200,7 +202,7 @@ class _ProductAddViewState extends State<ProductAddView> {
               return 'Please enter some text';
             }
           },
-          onSaved: (value) => retailPrice = int.parse(value),
+          onSaved: (value) => productretailPrice = int.parse(value),
         ),
       ],
     );
@@ -219,7 +221,7 @@ class _ProductAddViewState extends State<ProductAddView> {
           return 'Please enter some text';
         }
       },
-      onSaved: (value) => name = value.toLowerCase(),
+      onSaved: (value) => product.name = value.toLowerCase(),
     );
   }
 
@@ -274,18 +276,18 @@ class _ProductAddViewState extends State<ProductAddView> {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       DocumentReference reference = await firestore.collection('products').add({
-        'name': '$name',
-        'brand': '${brand.brandName.toLowerCase()}',
-        'category': '$category',
-        'supplierPrice': supplierPrice,
-        'retailPrice': retailPrice
+        'name': '${product.name}',
+        'brand': '${productbrand.brandName.toLowerCase()}',
+        'category': '$productcategory',
+        'supplierPrice': productsupplierPrice,
+        'retailPrice': productretailPrice
       });
       setState(() => id = reference.id);
       print(reference.id);
-      print(brand.isExist);
+      print(productbrand.isExist);
 
-      if (brand.isExist == false) {
-        print("${brand.brandName} does not exist, adding new one");
+      if (productbrand.isExist == false) {
+        print("${productbrand.brandName} does not exist, adding new one");
       }
     }
   }
@@ -300,7 +302,7 @@ class _ProductAddViewState extends State<ProductAddView> {
     await firestore
         .collection('products')
         .doc(documentSnapshot.id)
-        .update({'name': '$name'});
+        .update({'name': '$product.name'});
   }
 
   void deleteData(DocumentSnapshot documentSnapshot) async {
