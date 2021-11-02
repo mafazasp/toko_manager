@@ -279,11 +279,11 @@ class _ProductAddViewState extends State<ProductAddView> {
         'retailPrice': product.retailPrice
       });
       setState(() => id = reference.id);
-      print(reference.id);
-      print(product.brand.isExist);
 
       if (product.brand.isExist == false) {
-        print("${product.brand.name} does not exist, adding new one");
+        await firestore.collection('dropdown_lists').doc('brands').update({
+          'brand_names': FieldValue.arrayUnion([product.brand.name])
+        });
       }
     }
   }
