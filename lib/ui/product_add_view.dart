@@ -27,10 +27,6 @@ class _ProductAddViewState extends State<ProductAddView> {
   final _formKey = GlobalKey<FormState>();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   Product product = new Product();
-  Brand productbrand;
-  String productcategory;
-  int productsupplierPrice;
-  int productretailPrice;
   List<dynamic> brandsDynamic = [];
   List<String> brandsList;
 
@@ -156,7 +152,7 @@ class _ProductAddViewState extends State<ProductAddView> {
             }
           },
           displayStringForOption: (Brand option) => option.name,
-          onSelected: (Brand selection) => productbrand = selection,
+          onSelected: (Brand selection) => product.brand = selection,
         ),
         TextFormField(
           decoration: InputDecoration(
@@ -170,7 +166,7 @@ class _ProductAddViewState extends State<ProductAddView> {
               return 'Please enter some text';
             }
           },
-          onSaved: (value) => productcategory = value.toLowerCase(),
+          onSaved: (value) => product.category = value.toLowerCase(),
         ),
         TextFormField(
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -186,7 +182,7 @@ class _ProductAddViewState extends State<ProductAddView> {
               return 'Please enter some text';
             }
           },
-          onSaved: (value) => productsupplierPrice = int.parse(value),
+          onSaved: (value) => product.supplierPrice = int.parse(value),
         ),
         TextFormField(
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -202,7 +198,7 @@ class _ProductAddViewState extends State<ProductAddView> {
               return 'Please enter some text';
             }
           },
-          onSaved: (value) => productretailPrice = int.parse(value),
+          onSaved: (value) => product.retailPrice = int.parse(value),
         ),
       ],
     );
@@ -277,17 +273,17 @@ class _ProductAddViewState extends State<ProductAddView> {
       _formKey.currentState.save();
       DocumentReference reference = await firestore.collection('products').add({
         'name': '${product.name}',
-        'brand': '${productbrand.name.toLowerCase()}',
-        'category': '$productcategory',
-        'supplierPrice': productsupplierPrice,
-        'retailPrice': productretailPrice
+        'brand': '${product.brand.name.toLowerCase()}',
+        'category': '$product.category',
+        'supplierPrice': product.supplierPrice,
+        'retailPrice': product.retailPrice
       });
       setState(() => id = reference.id);
       print(reference.id);
-      print(productbrand.isExist);
+      print(product.brand.isExist);
 
-      if (productbrand.isExist == false) {
-        print("${productbrand.name} does not exist, adding new one");
+      if (product.brand.isExist == false) {
+        print("${product.brand.name} does not exist, adding new one");
       }
     }
   }
