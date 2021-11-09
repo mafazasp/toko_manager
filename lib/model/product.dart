@@ -9,6 +9,7 @@ class Product {
   Category category;
   int supplierPrice;
   int retailPrice;
+  String createdByUid;
   String createdBy;
   String lastEditedBy;
   Timestamp createdOn;

@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:toko_manager/model/brand.dart';
 
 import 'package:toko_manager/model/category.dart';
+import 'package:toko_manager/model/fire_user.dart';
 import 'package:toko_manager/model/product.dart';
 
 import 'home_drawer.dart';
@@ -24,6 +25,7 @@ class _ProductAddViewState extends State<ProductAddView> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   FirebaseAuth auth = FirebaseAuth.instance;
   Product product = new Product();
+  FireUser _user = new FireUser();
 
   List<dynamic> brandsDynamic = [];
   List<String> brandsList;
@@ -357,7 +359,8 @@ class _ProductAddViewState extends State<ProductAddView> {
         'retailPrice': product.retailPrice,
         'createdOn': Timestamp.now(),
         'lastEditedOn': null,
-        'createdBy': '${auth.currentUser.uid}',
+        'createdBy': '${_user.displayName}',
+        'createdByUid': '${_user.uid}',
         'lastEditedBy': null,
       });
       setState(() => id = reference.id);
