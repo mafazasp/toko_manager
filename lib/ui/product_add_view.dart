@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,6 +22,7 @@ class _ProductAddViewState extends State<ProductAddView> {
   String id;
   final _formKey = GlobalKey<FormState>();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  FirebaseAuth auth = FirebaseAuth.instance;
   Product product = new Product();
 
   List<dynamic> brandsDynamic = [];
@@ -337,7 +339,11 @@ class _ProductAddViewState extends State<ProductAddView> {
         'brand': '${product.brand.name.toLowerCase()}',
         'category': '${product.category.name.toLowerCase()}',
         'supplierPrice': product.supplierPrice,
-        'retailPrice': product.retailPrice
+        'retailPrice': product.retailPrice,
+        'createdOn': Timestamp.now(),
+        'lastEditedOn': null,
+        'createdBy': '${auth.currentUser.uid}',
+        'lastEditedBy': null,
       });
       setState(() => id = reference.id);
 
