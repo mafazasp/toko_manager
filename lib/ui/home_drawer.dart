@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:toko_manager/ui/inventory_view.dart';
 
-import 'inventory_add_view.dart';
 import 'product_add_view.dart';
 
 class HomeDrawer extends StatefulWidget {

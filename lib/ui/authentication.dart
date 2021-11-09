@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:toko_manager/net/flutterfire.dart';
 import 'package:toko_manager/ui/home_view.dart';
+import 'package:toko_manager/net/authentication_service.dart';
 
 class Authentication extends StatefulWidget {
   Authentication({Key key}) : super(key: key);
@@ -83,17 +85,21 @@ class _AuthenticationState extends State<Authentication> {
                 color: Colors.white,
               ),
               child: MaterialButton(
-                onPressed: () async {
-                  bool shouldNavigate =
-                      await signIn(_emailField.text, _passwordField.text);
-                  if (shouldNavigate) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => HomeView(),
-                      ),
-                    );
-                  }
+                onPressed: () {
+                  context.read<AuthenticationService>().signIn(
+                        email: _emailField.text,
+                        password: _passwordField.text,
+                      );
+                  // bool shouldNavigate =
+                  //     await signIn(_emailField.text, _passwordField.text);
+                  // if (shouldNavigate) {
+                  //   Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //       builder: (context) => HomeView(),
+                  //     ),
+                  //   );
+                  // }
                 },
                 child: Text("Login"),
               ),
