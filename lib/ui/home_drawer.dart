@@ -1,7 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:toko_manager/model/fire_user.dart';
 import 'package:toko_manager/net/authentication_service.dart';
 import 'package:toko_manager/ui/inventory_view.dart';
 
@@ -14,6 +15,10 @@ class HomeDrawer extends StatefulWidget {
   _HomeDrawerState createState() => _HomeDrawerState();
 }
 
+FirebaseFirestore firestore = FirebaseFirestore.instance;
+FirebaseAuth auth = FirebaseAuth.instance;
+FireUser _user = new FireUser();
+
 class _HomeDrawerState extends State<HomeDrawer> {
   @override
   Widget build(BuildContext context) {
@@ -21,7 +26,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
       child: ListView(
         children: [
           DrawerHeader(
-            child: Text(FirebaseAuth.instance.currentUser.uid),
+            child: Text(_user.displayName),
           ),
           ListTile(
             title: Text('Barang'),
