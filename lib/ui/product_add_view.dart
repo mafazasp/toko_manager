@@ -301,7 +301,22 @@ class _ProductAddViewState extends State<ProductAddView> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 RaisedButton(
-                  onPressed: createData,
+                  onPressed: () async {
+                    createData();
+                    showDialog<String>(
+                      context: context,
+                      barrierDismissible: true,
+                      builder: (BuildContext context) => AlertDialog(
+                        title: const Text('Barang Berhasil Ditambahkan!'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, 'OK'),
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
                   child: Text('Create', style: TextStyle(color: Colors.white)),
                   color: Colors.green,
                 ),
@@ -331,7 +346,7 @@ class _ProductAddViewState extends State<ProductAddView> {
     );
   }
 
-  void createData() async {
+  Future<AlertDialog> createData() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       DocumentReference reference = await firestore.collection('products').add({
