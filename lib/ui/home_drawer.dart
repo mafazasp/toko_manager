@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:toko_manager/net/authentication_service.dart';
 import 'package:toko_manager/ui/inventory_view.dart';
 
 import 'product_add_view.dart';
@@ -41,6 +43,12 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   builder: (context) => ProductAddView(),
                 ),
               );
+            },
+          ),
+          ListTile(
+            title: Text("Keluar"),
+            onTap: () {
+              context.read<AuthenticationService>().signOut();
             },
           ),
         ],
