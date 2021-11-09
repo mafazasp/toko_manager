@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:toko_manager/net/authentication_service.dart';
@@ -19,7 +21,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
       child: ListView(
         children: [
           DrawerHeader(
-            child: Text('(Account Name)'),
+            child: Text(FirebaseAuth.instance.currentUser.uid),
           ),
           ListTile(
             title: Text('Barang'),
