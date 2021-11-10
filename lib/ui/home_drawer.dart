@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:toko_manager/model/fire_user.dart';
 import 'package:toko_manager/net/authentication_service.dart';
+import 'package:toko_manager/ui/inventory_add_view.dart';
 import 'package:toko_manager/ui/inventory_view.dart';
 
 import 'product_add_view.dart';
@@ -29,13 +30,13 @@ class _HomeDrawerState extends State<HomeDrawer> {
             child: Text(_user.displayName),
           ),
           ListTile(
-            title: Text('Barang'),
+            title: Text('Barang Masuk'),
             onTap: () {
               Navigator.pop(context);
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => InventoryView(),
+                  builder: (context) => InventoryAddView(),
                 ),
               );
             },
