@@ -41,8 +41,15 @@ class _InventoryAddViewState extends State<InventoryAddView> {
               itemCount: cart.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  title: Text(cart[index]),
-                );
+                    title: Text(cart[index]),
+                    trailing: TextButton(
+                      onPressed: () => {
+                        setState(() {
+                          cart.removeAt(index);
+                        })
+                      },
+                      child: Text("X"),
+                    ));
               }),
         ),
       ),
