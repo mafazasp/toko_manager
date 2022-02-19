@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:toko_manager/model/product.dart';
+import 'package:toko_manager/model/product_mock.dart';
 import 'package:toko_manager/ui/home_drawer.dart';
+import 'package:toko_manager/ui/product_add_view.dart';
 
 class InventoryAddView extends StatefulWidget {
   InventoryAddView({Key key}) : super(key: key);
@@ -28,9 +31,19 @@ class _InventoryAddViewState extends State<InventoryAddView> {
   // }
 
   final _formKey = GlobalKey<FormState>();
-  List<String> cart = ["product 1", "product 2"];
+  Product product1 = Product();
+  Product product2 = Product();
+  List<Product> cart = [];
 
   @override
+  void initState() {
+    product1.name = "Product One";
+    product2.name = "Product Two";
+    cart.add(product1);
+    cart.add(product2);
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
@@ -41,7 +54,7 @@ class _InventoryAddViewState extends State<InventoryAddView> {
               itemCount: cart.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                    title: Text(cart[index]),
+                    title: Text(cart[index].name),
                     trailing: TextButton(
                       onPressed: () => {
                         setState(() {

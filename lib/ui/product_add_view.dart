@@ -87,13 +87,13 @@ class _ProductAddViewState extends State<ProductAddView> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                FlatButton(
+                TextButton(
                   onPressed: () => updateData(documentSnapshot),
                   child: Text('Update', style: TextStyle(color: Colors.white)),
-                  color: Colors.green,
+                  //color: Colors.green,
                 ),
                 SizedBox(width: 8),
-                FlatButton(
+                TextButton(
                   onPressed: () => deleteData(documentSnapshot),
                   child: Text('Delete'),
                 )
