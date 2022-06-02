@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:725340626422:android:aa074bc0f2631751b07bd7",
+        "mobilesdk_app_id": "1:725340626422:android:044af1ee6e924072b07bd7",
         "android_client_info": {
-          "package_name": "com.example.toko_manager"
+          "package_name": "com.fazforward.toko_manager"
         }
       },
       "oauth_client": [

@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.toko_manager">
+    package="com.fazforward.toko_manager">
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="toko_manager"
+        android:label="Toko Manager"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
