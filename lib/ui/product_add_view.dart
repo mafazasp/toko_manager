@@ -37,6 +37,7 @@ class _ProductAddViewState extends State<ProductAddView> {
   void initState() {
     getBrandsList();
     getCategoriesList();
+    print(categoriesList);
     super.initState();
   }
 

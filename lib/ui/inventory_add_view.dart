@@ -32,6 +32,8 @@ class _InventoryAddViewState extends State<InventoryAddView> {
   // }
 
   final _formKey = GlobalKey<FormState>();
+  final productFiller = ProductFiller();
+
   Product product1 = Product();
   Product product2 = Product();
   List<Product> cart = [];
@@ -50,8 +52,8 @@ class _InventoryAddViewState extends State<InventoryAddView> {
       home: Scaffold(
         appBar: AppBar(),
         drawer: HomeDrawer(),
-        body: Container(
-          child: ListView.builder(
+        body: Stack(children: <Widget>[
+          ListView.builder(
               itemCount: cart.length,
               itemBuilder: (context, index) {
                 return ListTile(
@@ -65,7 +67,8 @@ class _InventoryAddViewState extends State<InventoryAddView> {
                       child: Text("X"),
                     ));
               }),
-        ),
+          Text('test'),
+        ]),
       ),
     );
   }

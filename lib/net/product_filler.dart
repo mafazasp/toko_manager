@@ -10,31 +10,33 @@ import 'package:toko_manager/model/category.dart';
 import 'package:toko_manager/model/fire_user.dart';
 import 'package:toko_manager/model/product.dart';
 
-class ProductFiller {}
+class ProductFiller {
+  String id;
+  final _formKey = GlobalKey<FormState>();
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  FirebaseAuth auth = FirebaseAuth.instance;
+  Product product = new Product();
+  FireUser _user = new FireUser();
 
-List<String> globalList = ['hello', 'world'];
+  List<dynamic> brandsDynamic = [];
+  List<String> brandsList;
 
-String id;
-final _formKey = GlobalKey<FormState>();
-FirebaseFirestore firestore = FirebaseFirestore.instance;
-FirebaseAuth auth = FirebaseAuth.instance;
-Product product = new Product();
-FireUser _user = new FireUser();
+  List<dynamic> categoriesDynamic = [];
+  List<String> categoriesList;
 
-List<dynamic> brandsDynamic = [];
-List<String> brandsList;
+  List<String> getCategoriesList() {
+    firestore
+        .collection('dropdown_lists')
+        .doc('categories')
+        .get()
+        .then((value) => categoriesDynamic.addAll(value.get("category_names")));
 
-List<dynamic> categoriesDynamic = [];
-List<String> categoriesList;
+    categoriesList = categoriesDynamic.cast<String>();
 
-void getCategoriesList() {
-  firestore
-      .collection('dropdown_lists')
-      .doc('categories')
-      .get()
-      .then((value) => categoriesDynamic.addAll(value.get("category_names")));
+    return categoriesList;
+    // print(categoriesDynamic);
+    // print(brandsDynamic);
+  }
 
-  categoriesList = categoriesDynamic.cast<String>();
-  // print(categoriesDynamic);
-  // print(brandsDynamic);
+  static List<String> globalList = ['hello', 'static', 'world'];
 }
