@@ -4,6 +4,7 @@ import 'package:toko_manager/model/product_mock.dart';
 import 'package:toko_manager/net/product_filler.dart';
 import 'package:toko_manager/ui/home_drawer.dart';
 import 'package:toko_manager/ui/product_add_view.dart';
+import 'package:toko_manager/model/category.dart';
 
 class InventoryAddView extends StatefulWidget {
   InventoryAddView({Key key}) : super(key: key);
@@ -52,22 +53,74 @@ class _InventoryAddViewState extends State<InventoryAddView> {
       home: Scaffold(
         appBar: AppBar(),
         drawer: HomeDrawer(),
-        body: Stack(children: <Widget>[
-          ListView.builder(
-              itemCount: cart.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                    title: Text(cart[index].name),
-                    trailing: TextButton(
-                      onPressed: () => {
-                        setState(() {
-                          cart.removeAt(index);
-                        })
-                      },
-                      child: Text("X"),
-                    ));
-              }),
-          Text('test'),
+        body: Column(children: <Widget>[
+          Expanded(
+            child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: cart.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                      title: Text(cart[index].name),
+                      trailing: TextButton(
+                        onPressed: () => {
+                          setState(() {
+                            cart.removeAt(index);
+                          })
+                        },
+                        child: Text("X"),
+                      ));
+                }),
+          ),
+          Text('Testing'),
+          // Autocomplete<Category>(
+          //   optionsViewBuilder: (BuildContext context,
+          //       AutocompleteOnSelected<Category> onSelected,
+          //       Iterable<Category> options) {
+          //     return Align(
+          //       alignment: Alignment.topLeft,
+          //       child: Material(
+          //         child: Container(
+          //           // width: 300,
+          //           // color: Colors.teal,
+          //           child: ListView.builder(
+          //             padding: EdgeInsets.all(10.0),
+          //             itemCount: options.length,
+          //             itemBuilder: (BuildContext context, int index) {
+          //               final Category option = options.elementAt(index);
+
+          //               return GestureDetector(
+          //                 onTap: () {
+          //                   onSelected(option);
+          //                 },
+          //                 child: ListTile(
+          //                   title: Text(
+          //                     option.name,
+          //                     //style: const TextStyle(color: Colors.white),
+          //                   ),
+          //                 ),
+          //               );
+          //             },
+          //           ),
+          //         ),
+          //       ),
+          //     );
+          //   },
+          //   optionsBuilder: (TextEditingValue textEditingValue) {
+          //     Iterable<Category> categoryIterable =
+          //         productFiller.categoriesList.where((String option) {
+          //       return option.contains(textEditingValue.text.toLowerCase());
+          //     }).map((category) => Category(category, true));
+
+          //     if (categoryIterable.isEmpty) {
+          //       return [Category(textEditingValue.text, false)];
+          //     } else {
+          //       return categoryIterable;
+          //     }
+          //   },
+          //   displayStringForOption: (Category option) => option.name,
+          //   onSelected: (Category selection) =>
+          //       product1.category = selection, //product.category = selection,
+          // ),
         ]),
       ),
     );
